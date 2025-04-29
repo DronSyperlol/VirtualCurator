@@ -1,1 +1,13 @@
 ~$*
+
+.obj
+.exe
+.bin
+bin/
+x64/
+obj/
+
+Debug/
+Release/
+
+.vs/
