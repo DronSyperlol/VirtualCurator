@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include "MainWindow.h"	
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR cmdParam, int cmdParamCount) {
@@ -6,7 +5,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR cmdParam, int cmdParamC
 	MainWindow mainWnd(hInstance);
 
 	MSG msg;
-	while (GetMessage(&msg, nullptr, 0, 0) != 0)
+	while (GetMessage(&msg, NULL, 0, 0) != 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
