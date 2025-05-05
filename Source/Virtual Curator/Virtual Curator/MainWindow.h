@@ -1,7 +1,6 @@
 #pragma once
 #include "WindowBase.h"
-#include "Button.h"
-
+#include "WindowState.h"
 
 class MainWindow : public WindowBase {
 private:
@@ -13,4 +12,5 @@ private:
 
 public: 
 	MainWindow(HINSTANCE);
+	~MainWindow();
 };
