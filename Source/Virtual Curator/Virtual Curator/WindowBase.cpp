@@ -1,21 +1,13 @@
 #include "WindowBase.h"
 
 
-void WindowBase::initializeWindow(DWORD exStyle, LPCWSTR className, LPCWSTR windowName, DWORD style, 
-	int x, int y, int width, int height, HWND parent, HMENU menu, LPVOID lp)
+HWND WindowBase::initializeWindow(DWORD exStyle, LPCWSTR windowName, DWORD style,
+	int x, int y, int width, int height, HWND parent, HMENU menu)
 {
-	_hWnd = CreateWindowEx(exStyle, className, windowName, style, x, y, width, height,
-							parent, menu, nullptr, lp);
-	if (_hWnd == nullptr) throw "Window cannot created";
-	_createdWindows[_hWnd] = this;
+	return CreateWindowEx(exStyle, getClassName(), windowName, style, x, y, width, height, parent, menu, _hInstance, this);
 }
 
-LRESULT WindowBase::onWindowCreated(WPARAM wp, LPARAM lp) const
-{
-	return onRawWndProc(WM_CREATE, wp, lp);
-}
-
-LRESULT WindowBase::onRawWndProc(UINT msg, WPARAM wp, LPARAM lp) const
+LRESULT WindowBase::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) const
 {
 	return DefWindowProc(_hWnd, msg, wp, lp);
 }
@@ -25,22 +17,26 @@ void WindowBase::show(bool toShow) const
 	ShowWindowAsync(_hWnd, toShow ? SW_SHOW : SW_HIDE);
 }
 
-std::map<HWND, WindowBase*> WindowBase::_createdWindows;
-
-WindowBase* WindowBase::getWindowByHWnd(HWND hWnd)
-{
-	return _createdWindows[hWnd];
-}
 
 LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-	WindowBase* wndClass = getWindowByHWnd(hWnd);
+	auto wndClass = (LPWindowBase)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	try {
+		if (wndClass == nullptr && (msg == WM_CREATE || msg == WM_NCCREATE)) {
+			wndClass = (LPWindowBase)((LPCREATESTRUCT)lp)->lpCreateParams;
+			wndClass->_hWnd = hWnd;
+			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)wndClass);
+		}
+	}
+	catch (std::exception) {}
 	if (!wndClass) return DefWindowProc(hWnd, msg, wp, lp);
 	switch (msg) {
-	case WM_CREATE: 
-		return wndClass->onWindowCreated(wp, lp);
+	case WM_CREATE:
+		return wndClass->onWindowCreated(hWnd, wp, lp);
+	case WM_DESTROY:
+		return wndClass->onWindowDestroyed(hWnd, wp, lp);
 	default:
-		return wndClass->onRawWndProc(msg, wp, lp);
+		return wndClass->onRawWndProc(hWnd, msg, wp, lp);
 	}
 }
 
@@ -52,5 +48,4 @@ WindowBase::WindowBase(HINSTANCE hInst)
 
 WindowBase::~WindowBase()
 {
-	_createdWindows.erase(_hWnd);
 }

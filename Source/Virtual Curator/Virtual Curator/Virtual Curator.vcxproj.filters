@@ -13,24 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Windows">
+      <UniqueIdentifier>{5a601cf3-1835-4ad0-ab5b-ae4dda0b2dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Windows">
+      <UniqueIdentifier>{654ec156-eeed-4fb6-9240-209402a62c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Windows\Components">
+      <UniqueIdentifier>{5c0ac5a1-319a-4092-be82-336949994fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Windows\Components">
+      <UniqueIdentifier>{fc0a4c3d-1d89-4217-9369-1dbfa6d00f01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="WindowBase.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Windows</Filter>
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Исходные файлы\Windows\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowBase.h">
+    <ClInclude Include="main.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowBase.h">
+      <Filter>Файлы заголовков\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Файлы заголовков\Windows\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

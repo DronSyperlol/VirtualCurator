@@ -2,6 +2,7 @@
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
 
+
 LPCWSTR MainWindow::getClassName() const {
 	if (_wndClass == nullptr) {
 		_wndClass = new WNDCLASSEX;
@@ -18,14 +19,34 @@ LPCWSTR MainWindow::getClassName() const {
 	return _wndClass->lpszClassName;
 }
 
-LRESULT MainWindow::onWindowCreated(WPARAM wp, LPARAM lp) const
+
+void onBtnClick() {
+	MessageBox(nullptr, L"Clicked", L"Btn test", MB_OK);
+}
+
+LRESULT MainWindow::onWindowCreated(HWND hWnd, WPARAM wp, LPARAM lp) const
 {
-	MessageBox(_hWnd, L"Окно отрисовано!", L"Success", MB_OK);
-	return WindowBase::onWindowCreated(wp, lp);
+	auto btn = new VirtualCurator::Button(_hInstance, hWnd, L"Push me", 10, 10, 100, 50, onBtnClick);
+	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
+}
+
+LRESULT MainWindow::onWindowDestroyed(HWND hWnd, WPARAM wp, LPARAM lp) const
+{
+	PostQuitMessage(0);
+	return DefWindowProc(hWnd, WM_DESTROY, wp, lp);
+}
+
+LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) const
+{
+	if (msg == WM_COMMAND) {
+		MessageBox(hWnd, L"Command", L"cmd", MB_OK);
+	}
+	return DefWindowProc(hWnd, msg, wp, lp);
+	return LRESULT();
 }
 
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
-	initializeWindow(NULL, getClassName(), L"Main Windows", WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, NULL, NULL, NULL);
+	initializeWindow(NULL, L"Main Windows", WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, NULL, NULL);
 	show(true);
 }
