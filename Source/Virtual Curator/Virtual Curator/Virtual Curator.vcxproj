@@ -138,6 +138,9 @@
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowState.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Data\Images\default-maskot.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

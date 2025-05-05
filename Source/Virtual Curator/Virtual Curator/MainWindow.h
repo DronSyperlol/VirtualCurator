@@ -10,6 +10,8 @@ private:
 	LRESULT onWindowDestroyed(HWND, WPARAM, LPARAM) const override;
 	LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const override;
 
+	LPWindowState _wndState;
+
 public: 
 	MainWindow(HINSTANCE);
 	~MainWindow();

@@ -54,4 +54,9 @@
       <Filter>Файлы заголовков\Windows\Types</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Data\Images\default-maskot.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
