@@ -62,16 +62,22 @@ void MainWindow::drawWindow() const
 	const int zoom = 0;
 	RECT rect = { 0 };
 	GetWindowRect(_hWnd, &rect);
+	SIZE wndSize = { rect.right - rect.left, rect.bottom - rect.top };
+	POINT wndPos = { 0 };
+	ClientToScreen(_hWnd, &wndPos);
 
 	BITMAP bm = { 0 };
 	GetObject(_wndState->hBmp, sizeof(BITMAP), &bm);
 
+	HDC srcImageDC = CreateCompatibleDC(NULL);
+	SelectObject(srcImageDC, _wndState->hBmp);
 
-	SIZE size = { bm.bmWidth, bm.bmHeight };
+	HBITMAP dstBmp = CreateCompatibleBitmap(srcImageDC, wndSize.cx, wndSize.cy);
+	HDC dstImageDC = CreateCompatibleDC(NULL);
+	SelectObject(dstImageDC, dstBmp);
 
-
-	HDC hdcMem = CreateCompatibleDC(NULL);
-	HBITMAP hOld = (HBITMAP)SelectObject(hdcMem, _wndState->hBmp);
+	SetStretchBltMode(dstImageDC, HALFTONE);
+	StretchBlt(dstImageDC, 0, 0, wndSize.cx, wndSize.cy, srcImageDC, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
 
 
 	BLENDFUNCTION blend = { 0 };
@@ -81,18 +87,17 @@ void MainWindow::drawWindow() const
 
 	POINT ptZero = { 0 };
 
-	POINT ptWindow = { 0 };
-	ClientToScreen(_hWnd, &ptWindow);
+	UpdateLayeredWindow(_hWnd, NULL, &wndPos, &wndSize, dstImageDC, &ptZero, RGB(0, 0, 0), &blend, ULW_COLORKEY);
 
-	UpdateLayeredWindow(_hWnd, NULL, &ptWindow, &size, hdcMem, &ptZero, RGB(0, 0, 0), &blend, ULW_COLORKEY);
-
-	DeleteDC(hdcMem);
+	DeleteDC(srcImageDC);
+	DeleteObject(dstBmp);
+	DeleteDC(dstImageDC);
 }
 
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Main Windows", WS_POPUP, 100, 100, 900, 900, NULL, NULL);
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Main Windows", WS_POPUP, 100, 100, 1000, 1000, NULL, NULL);
 	show(true);
 }
 
