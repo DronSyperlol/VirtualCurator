@@ -12,6 +12,8 @@ private:
 
 	LPWindowState _wndState;
 
+	void drawWindow() const;
+
 public: 
 	MainWindow(HINSTANCE);
 	~MainWindow();

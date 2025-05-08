@@ -14,10 +14,6 @@ LPCWSTR MainWindow::getClassName() const {
 		_wndClass->lpfnWndProc = (WNDPROC)WindowBase::routeEvents;
 		_wndClass->lpszClassName = L"MainWindow";
 		_wndClass->hInstance = _hInstance;
-		_wndClass->hIcon = LoadIcon(_hInstance, IDI_QUESTION);
-		_wndClass->hCursor = LoadCursor(_hInstance, IDC_ARROW);
-		//_wndClass->hbrBackground = (HBRUSH)COLOR_WINDOW;
-		_wndClass->hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH); // кривая прозрачность
 		if (!RegisterClassEx(_wndClass)) throw "Cannot register class";
 	}
 	return _wndClass->lpszClassName;
@@ -34,7 +30,10 @@ LRESULT MainWindow::onWindowCreated(HWND hWnd, WPARAM wp, LPARAM lp) const
 	if (_wndState->pImage != nullptr && _wndState->pImage->GetLastStatus() != Gdiplus::Ok) {
 		delete_ptr(_wndState->pImage);
 	}
-
+	else {
+		_wndState->pImage->GetHBITMAP(Gdiplus::Color(0, 0, 0, 0), &_wndState->hBmp);
+		drawWindow();
+	}
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
 
@@ -51,35 +50,49 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	{
 	case WM_LBUTTONDOWN:
 		SendMessage(hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
-		SendMessage(hWnd, WM_PAINT, NULL, NULL);
 		break;
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hWnd, &ps);
-
-		if (_wndState->pImage) {
-			Gdiplus::Graphics graphics(hdc);
-			RECT rect = { 0 };
-			GetWindowRect(hWnd, &rect);
-			const int zoom = 60;
-			Gdiplus::Color color(0, 0, 0, 0);
-			graphics.Clear(color);
-			graphics.DrawImage(_wndState->pImage, 0 - zoom / 2, 0 - zoom / 2, rect.right - rect.left + zoom, rect.bottom - rect.top + zoom);
-		}
-		EndPaint(hWnd, &ps);
-	}
-	break;
 	default:
 		break;
 	}
 	return DefWindowProc(hWnd, msg, wp, lp);
 }
 
+void MainWindow::drawWindow() const
+{
+	const int zoom = 0;
+	RECT rect = { 0 };
+	GetWindowRect(_hWnd, &rect);
+
+	BITMAP bm = { 0 };
+	GetObject(_wndState->hBmp, sizeof(BITMAP), &bm);
+
+
+	SIZE size = { bm.bmWidth, bm.bmHeight };
+
+
+	HDC hdcMem = CreateCompatibleDC(NULL);
+	HBITMAP hOld = (HBITMAP)SelectObject(hdcMem, _wndState->hBmp);
+
+
+	BLENDFUNCTION blend = { 0 };
+	blend.AlphaFormat = AC_SRC_ALPHA;
+	blend.BlendOp = AC_SRC_OVER;
+	blend.SourceConstantAlpha = 255;
+
+	POINT ptZero = { 0 };
+
+	POINT ptWindow = { 0 };
+	ClientToScreen(_hWnd, &ptWindow);
+
+	UpdateLayeredWindow(_hWnd, NULL, &ptWindow, &size, hdcMem, &ptZero, RGB(0, 0, 0), &blend, ULW_COLORKEY);
+
+	DeleteDC(hdcMem);
+}
+
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
-	initializeWindow(WS_EX_TOPMOST, L"Main Windows", WS_POPUP, 100, 100, 500, 500, NULL, NULL);
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Main Windows", WS_POPUP, 100, 100, 900, 900, NULL, NULL);
 	show(true);
 }
 
