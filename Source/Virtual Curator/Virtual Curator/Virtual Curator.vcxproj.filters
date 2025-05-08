@@ -19,14 +19,14 @@
     <Filter Include="Файлы заголовков\Windows">
       <UniqueIdentifier>{654ec156-eeed-4fb6-9240-209402a62c38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Windows\Components">
-      <UniqueIdentifier>{5c0ac5a1-319a-4092-be82-336949994fb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Исходные файлы\Windows\Components">
-      <UniqueIdentifier>{fc0a4c3d-1d89-4217-9369-1dbfa6d00f01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы заголовков\Windows\Types">
       <UniqueIdentifier>{28341e91-f8a4-4c94-9c87-cef1635559ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Windows\Tools">
+      <UniqueIdentifier>{47b23b24-b5cf-4538-b6b4-086280b79185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Tools">
+      <UniqueIdentifier>{6fb8d0d0-d75f-415c-8373-e609d2d34219}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Исходные файлы\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools.cpp">
+      <Filter>Исходные файлы\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="WindowState.h">
       <Filter>Файлы заголовков\Windows\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Файлы заголовков\Windows\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

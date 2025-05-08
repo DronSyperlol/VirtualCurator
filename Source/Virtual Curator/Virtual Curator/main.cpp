@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Tools.h"
 
 using namespace VirtualCurator;
 
@@ -13,11 +14,5 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdParam, int cmdParamCount
 		DispatchMessage(&msg);
 	}
 	// closing app
-	free_memory(mainWindow);
-}
-
-void VirtualCurator::free_memory(LPVOID ptr) 
-{
-	delete ptr;
-	ptr = nullptr;
+	delete_ptr(mainWindow);
 }
