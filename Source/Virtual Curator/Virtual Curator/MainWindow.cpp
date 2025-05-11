@@ -52,6 +52,13 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	case WM_LBUTTONDOWN:
 		SendMessage(hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
 		break;
+	case WM_CONTEXTMENU:
+	{
+		int x = LOWORD(lp);
+		int y = HIWORD(lp);
+		drawContextMenu(x, y);
+	}
+		break;
 	default:
 		break;
 	}
@@ -92,6 +99,13 @@ void MainWindow::drawWindow() const
 	DeleteDC(srcImageDC);
 	DeleteObject(dstBmp);
 	DeleteDC(dstImageDC);
+}
+
+void MainWindow::drawContextMenu(int x, int y) const
+{
+	HMENU rootMenu = CreatePopupMenu();
+	AppendMenu(rootMenu, MF_STRING, 1, L"Скрыть");
+	TrackPopupMenu(rootMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD | TPM_LEFTBUTTON | TPM_NOANIMATION, x, y, 0, _hWnd, nullptr);
 }
 
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
