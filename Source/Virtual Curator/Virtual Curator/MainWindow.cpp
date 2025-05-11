@@ -1,10 +1,9 @@
 #include "MainWindow.h"
-#pragma comment(lib, "gdiplus.lib")  // Автоматическая линковка библиотеки
+#pragma comment(lib, "gdiplus.lib") 
 #include "Tools.h"
 #include "resource.h"
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
-
 
 LPCWSTR MainWindow::getClassName() const {
 	if (_wndClass == nullptr) {
@@ -20,16 +19,6 @@ LPCWSTR MainWindow::getClassName() const {
 	}
 	return _wndClass->lpszClassName;
 }
-
-LRESULT MainWindow::onCommand(HWND hWnd, WPARAM wp, LPARAM lp) const
-{
-	switch (LOWORD(wp)) {
-	default:
-		break;
-	}
-	return WindowBase::onCommand(hWnd, wp, lp);
-}
-
 
 LRESULT MainWindow::onWindowCreated(HWND hWnd, WPARAM wp, LPARAM lp) const
 {
@@ -56,6 +45,15 @@ LRESULT MainWindow::onWindowDestroyed(HWND hWnd, WPARAM wp, LPARAM lp) const
 	return DefWindowProc(hWnd, WM_DESTROY, wp, lp);
 }
 
+LRESULT MainWindow::onCommand(HWND hWnd, WPARAM wp, LPARAM lp) const
+{
+	switch (LOWORD(wp)) {
+	default:
+		break;
+	}
+	return WindowBase::onCommand(hWnd, wp, lp);
+}
+
 LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) const
 {
 	switch (msg)
@@ -70,7 +68,6 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 		drawContextMenu(x, y);
 	}
 		break;
-	break;
 	default:
 		break;
 	}
@@ -96,8 +93,7 @@ void MainWindow::drawWindow() const
 	SelectObject(dstImageDC, dstBmp);
 
 	SetStretchBltMode(dstImageDC, HALFTONE);
-	StretchBlt(dstImageDC, 0, 0, wndSize.cx, wndSize.cy, srcImageDC, 0, 0, bm.bmWidth, bm.bmHeight, NOTSRCCOPY);
-
+	StretchBlt(dstImageDC, 0, 0, wndSize.cx, wndSize.cy, srcImageDC, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
 
 	BLENDFUNCTION blend = { 0 };
 	blend.AlphaFormat = AC_SRC_ALPHA;
@@ -118,6 +114,7 @@ void MainWindow::drawContextMenu(int x, int y) const
 	HMENU rootMenu = CreatePopupMenu();
 	AppendMenu(rootMenu, MF_STRING, CMI_HIDE, L"Скрыть");
 	TrackPopupMenu(rootMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD | TPM_LEFTBUTTON | TPM_NOANIMATION, x, y, 0, _hWnd, nullptr);
+
 }
 
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
