@@ -96,7 +96,7 @@ void MainWindow::drawWindow() const
 	SelectObject(dstImageDC, dstBmp);
 
 	SetStretchBltMode(dstImageDC, HALFTONE);
-	StretchBlt(dstImageDC, 0, 0, wndSize.cx, wndSize.cy, srcImageDC, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
+	StretchBlt(dstImageDC, 0, 0, wndSize.cx, wndSize.cy, srcImageDC, 0, 0, bm.bmWidth, bm.bmHeight, NOTSRCCOPY);
 
 
 	BLENDFUNCTION blend = { 0 };
