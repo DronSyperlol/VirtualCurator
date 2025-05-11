@@ -19,6 +19,8 @@ private:
 	void drawWindow() const;
 	void drawContextMenu(int x, int y) const;
 
+	void processContextMenu(int) const;
+
 public: 
 	MainWindow(HINSTANCE);
 	~MainWindow();

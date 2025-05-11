@@ -113,8 +113,22 @@ void MainWindow::drawContextMenu(int x, int y) const
 {
 	HMENU rootMenu = CreatePopupMenu();
 	AppendMenu(rootMenu, MF_STRING, CMI_HIDE, L"Скрыть");
-	TrackPopupMenu(rootMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD | TPM_LEFTBUTTON | TPM_NOANIMATION, x, y, 0, _hWnd, nullptr);
+	int code = TrackPopupMenu(rootMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD | TPM_LEFTBUTTON | TPM_NOANIMATION, x, y, 0, _hWnd, nullptr);
+	processContextMenu(code);
+}
 
+void MainWindow::processContextMenu(int code) const
+{
+	switch (code)
+	{
+	case CMI_HIDE:
+	{
+		show(false);
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
