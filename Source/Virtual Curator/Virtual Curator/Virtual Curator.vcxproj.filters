@@ -42,6 +42,9 @@
     <ClCompile Include="Tools.cpp">
       <Filter>Исходные файлы\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="NotifyWindow.cpp">
+      <Filter>Исходные файлы\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="NotifyWindow.h">
+      <Filter>Файлы заголовков\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

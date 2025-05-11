@@ -26,8 +26,6 @@ private:
 	void hideToTray() const;
 	void showFromTray() const;
 
-
-
 public: 
 	MainWindow(HINSTANCE);
 	~MainWindow();

@@ -4,6 +4,8 @@
 #include "Tools.h"
 #include "resource.h"
 
+#include "NotifyWindow.h"
+
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
 
 
@@ -37,6 +39,9 @@ LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 		drawWindow();
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
+
+	new NotifyWindow(_hInstance, _hWnd, L"Hello world!");
+
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
 
@@ -174,5 +179,6 @@ MainWindow::~MainWindow()
 {
 	delete_ptr(_wndState->hBmp);
 	delete_ptr(_wndState->pImage);
+	delete_ptr(_wndState->trayData);
 	delete_ptr(_wndState);
 }

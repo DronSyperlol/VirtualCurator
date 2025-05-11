@@ -131,12 +131,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="NotifyWindow.cpp" />
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="NotifyWindow.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="WindowBase.h" />
