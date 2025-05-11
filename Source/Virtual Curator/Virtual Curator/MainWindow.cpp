@@ -1,9 +1,11 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "MainWindow.h"
 #pragma comment(lib, "gdiplus.lib") 
 #include "Tools.h"
 #include "resource.h"
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
+
 
 LPCWSTR MainWindow::getClassName() const {
 	if (_wndClass == nullptr) {
@@ -67,6 +69,10 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 		int y = HIWORD(lp);
 		drawContextMenu(x, y);
 	}
+	break;
+	case WM_USER:
+		if (lp == WM_LBUTTONDOWN)
+			showFromTray();
 		break;
 	default:
 		break;
@@ -122,13 +128,39 @@ void MainWindow::processContextMenu(int code) const
 	switch (code)
 	{
 	case CMI_HIDE:
-	{
-		show(false);
-	}
-	break;
+		hideToTray();
+		break;
 	default:
 		break;
 	}
+}
+
+void MainWindow::hideToTray() const
+{
+	if (_wndState->hidden) return;
+	if (!_wndState->trayData) {
+		_wndState->trayData = new NOTIFYICONDATA;
+		ZeroMemory(_wndState->trayData, sizeof(NOTIFYICONDATA));
+		_wndState->trayData->cbSize = sizeof(NOTIFYICONDATA);
+		_wndState->trayData->hWnd = _hWnd;
+		_wndState->trayData->uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE;
+		_wndState->trayData->hIcon = LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_ICON1));
+		wcscpy(_wndState->trayData->szTip, L"Показать куратора");
+		_wndState->trayData->uCallbackMessage = WM_USER;
+		_wndState->trayData->uVersion = NOTIFYICON_VERSION_4;
+	}
+	Shell_NotifyIcon(NIM_ADD, _wndState->trayData);
+	Shell_NotifyIcon(NIM_SETVERSION, _wndState->trayData);
+	show(false);
+	_wndState->hidden = true;
+}
+
+void MainWindow::showFromTray() const
+{
+	if (!_wndState->hidden || _wndState->trayData == nullptr) return;
+	Shell_NotifyIcon(NIM_DELETE, _wndState->trayData);
+	show(true);
+	_wndState->hidden = false;
 }
 
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)

@@ -5,6 +5,8 @@
 // Menu
 const int CMI_HIDE = 1;
 
+
+
 class MainWindow : public WindowBase {
 private:
 	static WNDCLASSEX* _wndClass;
@@ -20,6 +22,11 @@ private:
 	void drawContextMenu(int x, int y) const;
 
 	void processContextMenu(int) const;
+
+	void hideToTray() const;
+	void showFromTray() const;
+
+
 
 public: 
 	MainWindow(HINSTANCE);
