@@ -11,8 +11,8 @@ class MainWindow : public WindowBase {
 private:
 	static WNDCLASSEX* _wndClass;
 	LPCWSTR getClassName() const override;
-	LRESULT onWindowCreated(HWND, WPARAM, LPARAM) const override;
-	LRESULT onWindowDestroyed(HWND, WPARAM, LPARAM) const override;
+	LRESULT onWindowCreate(HWND, WPARAM, LPARAM) const override;
+	LRESULT onWindowDestroy(HWND, WPARAM, LPARAM) const override;
 	LRESULT onCommand(HWND, WPARAM, LPARAM) const override;
 	LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const override;
 

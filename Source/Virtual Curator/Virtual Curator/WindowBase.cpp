@@ -36,9 +36,9 @@ LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	if (!wndClass) return DefWindowProc(hWnd, msg, wp, lp);
 	switch (msg) {
 	case WM_CREATE:
-		return wndClass->onWindowCreated(hWnd, wp, lp);
+		return wndClass->onWindowCreate(hWnd, wp, lp);
 	case WM_DESTROY:
-		return wndClass->onWindowDestroyed(hWnd, wp, lp);
+		return wndClass->onWindowDestroy(hWnd, wp, lp);
 	case WM_COMMAND:
 		return wndClass->onCommand(hWnd, wp, lp);
 	default:

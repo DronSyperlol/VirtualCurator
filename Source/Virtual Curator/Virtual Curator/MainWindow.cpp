@@ -22,7 +22,7 @@ LPCWSTR MainWindow::getClassName() const {
 	return _wndClass->lpszClassName;
 }
 
-LRESULT MainWindow::onWindowCreated(HWND hWnd, WPARAM wp, LPARAM lp) const
+LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 {
 	Gdiplus::GdiplusStartupInput gdiInput;
 	Gdiplus::GdiplusStartup(&_wndState->gdiToken, &gdiInput, NULL);
@@ -40,7 +40,7 @@ LRESULT MainWindow::onWindowCreated(HWND hWnd, WPARAM wp, LPARAM lp) const
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
 
-LRESULT MainWindow::onWindowDestroyed(HWND hWnd, WPARAM wp, LPARAM lp) const
+LRESULT MainWindow::onWindowDestroy(HWND hWnd, WPARAM wp, LPARAM lp) const
 {
 	Gdiplus::GdiplusShutdown(_wndState->gdiToken);
 	PostQuitMessage(0);

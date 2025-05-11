@@ -20,8 +20,8 @@ protected:
 
 	// Events: 
 	virtual LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const;
-	virtual LRESULT onWindowCreated(HWND, WPARAM, LPARAM) const = 0;
-	virtual LRESULT onWindowDestroyed(HWND, WPARAM, LPARAM) const = 0;
+	virtual LRESULT onWindowCreate(HWND, WPARAM, LPARAM) const = 0;
+	virtual LRESULT onWindowDestroy(HWND, WPARAM, LPARAM) const = 0;
 	virtual LRESULT onCommand(HWND, WPARAM, LPARAM) const;
 };
 
