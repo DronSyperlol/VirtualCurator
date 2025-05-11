@@ -2,10 +2,14 @@
 #include "WindowBase.h"
 #include "WindowState.h"
 
+// Menu
+const int CMI_HIDE = 1;
+
 class MainWindow : public WindowBase {
 private:
 	static WNDCLASSEX* _wndClass;
 	LPCWSTR getClassName() const override;
+	LRESULT onCommand(HWND, WPARAM, LPARAM) const override;
 	LRESULT onWindowCreated(HWND, WPARAM, LPARAM) const override;
 	LRESULT onWindowDestroyed(HWND, WPARAM, LPARAM) const override;
 	LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const override;

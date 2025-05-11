@@ -12,11 +12,15 @@ LRESULT WindowBase::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	return DefWindowProc(_hWnd, msg, wp, lp);
 }
 
+LRESULT WindowBase::onCommand(HWND hWnd, WPARAM wp, LPARAM lp) const
+{
+	return onRawWndProc(hWnd, WM_COMMAND, wp, lp);
+}
+
 void WindowBase::show(bool toShow) const
 {
 	ShowWindowAsync(_hWnd, toShow ? SW_SHOW : SW_HIDE);
 }
-
 
 LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
@@ -35,6 +39,8 @@ LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		return wndClass->onWindowCreated(hWnd, wp, lp);
 	case WM_DESTROY:
 		return wndClass->onWindowDestroyed(hWnd, wp, lp);
+	case WM_COMMAND:
+		return wndClass->onCommand(hWnd, wp, lp);
 	default:
 		return wndClass->onRawWndProc(hWnd, msg, wp, lp);
 	}

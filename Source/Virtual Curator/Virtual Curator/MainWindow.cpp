@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #pragma comment(lib, "gdiplus.lib")  // Автоматическая линковка библиотеки
 #include "Tools.h"
+#include "resource.h"
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
 
@@ -14,9 +15,19 @@ LPCWSTR MainWindow::getClassName() const {
 		_wndClass->lpfnWndProc = (WNDPROC)WindowBase::routeEvents;
 		_wndClass->lpszClassName = L"MainWindow";
 		_wndClass->hInstance = _hInstance;
+		_wndClass->hIcon = LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 		if (!RegisterClassEx(_wndClass)) throw "Cannot register class";
 	}
 	return _wndClass->lpszClassName;
+}
+
+LRESULT MainWindow::onCommand(HWND hWnd, WPARAM wp, LPARAM lp) const
+{
+	switch (LOWORD(wp)) {
+	default:
+		break;
+	}
+	return WindowBase::onCommand(hWnd, wp, lp);
 }
 
 
@@ -59,6 +70,7 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 		drawContextMenu(x, y);
 	}
 		break;
+	break;
 	default:
 		break;
 	}
@@ -104,7 +116,7 @@ void MainWindow::drawWindow() const
 void MainWindow::drawContextMenu(int x, int y) const
 {
 	HMENU rootMenu = CreatePopupMenu();
-	AppendMenu(rootMenu, MF_STRING, 1, L"Скрыть");
+	AppendMenu(rootMenu, MF_STRING, CMI_HIDE, L"Скрыть");
 	TrackPopupMenu(rootMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD | TPM_LEFTBUTTON | TPM_NOANIMATION, x, y, 0, _hWnd, nullptr);
 }
 

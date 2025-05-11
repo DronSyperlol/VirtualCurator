@@ -59,10 +59,21 @@
     <ClInclude Include="Tools.h">
       <Filter>Файлы заголовков\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Data\Images\default-maskot.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="..\..\..\Data\Images\logo.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Virtual Curator.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
