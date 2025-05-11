@@ -22,11 +22,11 @@
     <Filter Include="Файлы заголовков\Windows\Types">
       <UniqueIdentifier>{28341e91-f8a4-4c94-9c87-cef1635559ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Windows\Tools">
-      <UniqueIdentifier>{47b23b24-b5cf-4538-b6b4-086280b79185}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Tools">
       <UniqueIdentifier>{6fb8d0d0-d75f-415c-8373-e609d2d34219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Tools">
+      <UniqueIdentifier>{47b23b24-b5cf-4538-b6b4-086280b79185}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +57,7 @@
       <Filter>Файлы заголовков\Windows\Types</Filter>
     </ClInclude>
     <ClInclude Include="Tools.h">
-      <Filter>Файлы заголовков\Windows\Tools</Filter>
+      <Filter>Файлы заголовков\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

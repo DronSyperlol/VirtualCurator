@@ -33,6 +33,7 @@ LRESULT MainWindow::onWindowCreated(HWND hWnd, WPARAM wp, LPARAM lp) const
 	else {
 		_wndState->pImage->GetHBITMAP(Gdiplus::Color(0, 0, 0, 0), &_wndState->hBmp);
 		drawWindow();
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
@@ -59,7 +60,6 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 
 void MainWindow::drawWindow() const
 {
-	const int zoom = 0;
 	RECT rect = { 0 };
 	GetWindowRect(_hWnd, &rect);
 	SIZE wndSize = { rect.right - rect.left, rect.bottom - rect.top };
@@ -97,7 +97,7 @@ void MainWindow::drawWindow() const
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Main Windows", WS_POPUP, 100, 100, 1000, 1000, NULL, NULL);
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Main Windows", WS_POPUP, 100, 100, 400, 400, NULL, NULL);
 	show(true);
 }
 
