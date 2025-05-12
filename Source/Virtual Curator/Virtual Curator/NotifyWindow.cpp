@@ -70,6 +70,27 @@ void NotifyWindow::drawWindow() const
 	SetStretchBltMode(dstImageDC, HALFTONE);
 	StretchBlt(dstImageDC, 0, 0, wndSize.cx, wndSize.cy, srcImageDC, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
 
+	Gdiplus::Graphics graphics(dstImageDC);
+
+	Gdiplus::Font myFont(L"Arial", 16);
+
+	Gdiplus::RectF therect;
+	therect.Height = 20;
+	therect.Width = 180;
+	therect.X = 10;
+	therect.Y = 10;
+
+	Gdiplus::StringFormat format;
+	format.SetAlignment(Gdiplus::StringAlignmentCenter);
+	format.GenericDefault();
+
+	Gdiplus::SolidBrush   GxTextBrush(Gdiplus::Color(255, 0, 0, 0));
+
+	int msglen = 0;
+	while (_message[msglen] != '\0') msglen++;
+
+	graphics.DrawString(_message, msglen, &myFont, therect, &format, &GxTextBrush);
+
 	BLENDFUNCTION blend = { 0 };
 	blend.AlphaFormat = AC_SRC_ALPHA;
 	blend.BlendOp = AC_SRC_OVER;
@@ -86,19 +107,18 @@ void NotifyWindow::drawWindow() const
 
 NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : WindowBase(hInst)
 {
+	_message = message;
 	_wndState = new WindowState;
 	RECT parentWndRect = { 0 };
 	GetWindowRect(parent, &parentWndRect);
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT,
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED ,
 		L"Message",
 		WS_POPUP,
-		parentWndRect.left, parentWndRect.top,
+		parentWndRect.left, parentWndRect.top - 100,
 		parentWndRect.right - parentWndRect.left, 0,
 		parent, NULL);
 	RECT rc = { 0 };
 	GetWindowRect(_hWnd, &rc);
-	auto textWnd = CreateWindow(L"static", L"static wnd", WS_CHILD | WS_VISIBLE, 10, 10, rc.right - rc.left, rc.bottom - rc.top, _hWnd, (HMENU)2, NULL, NULL);
-	SetDlgItemText(textWnd, 2, message);
 	show(true);
 }
 

@@ -9,6 +9,8 @@ public:
 
 	WindowBase(HINSTANCE);
 	virtual void show(bool) const;
+	void move(int x, int y) const;
+	void sendMessage(UINT, WPARAM, LPARAM) const;
 	~WindowBase();
 protected:
 	HWND _hWnd;

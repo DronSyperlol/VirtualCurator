@@ -22,6 +22,16 @@ void WindowBase::show(bool toShow) const
 	ShowWindowAsync(_hWnd, toShow ? SW_SHOW : SW_HIDE);
 }
 
+void WindowBase::move(int x, int y) const
+{
+	SetWindowPos(_hWnd, nullptr, x, y, 0, 0, SWP_NOSIZE);
+}
+
+void WindowBase::sendMessage(UINT msg, WPARAM wp, LPARAM lp) const
+{
+	SendMessage(_hWnd, msg, wp, lp);
+}
+
 LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	auto wndClass = (LPWindowBase)GetWindowLongPtr(hWnd, GWLP_USERDATA);

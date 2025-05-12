@@ -1,6 +1,6 @@
 #pragma once
 #include <gdiplus.h>  // Заголовочный файл GDI+
-
+#include <vector>
 
 struct WindowState
 {
@@ -10,5 +10,7 @@ struct WindowState
 
 	bool hidden = false;
 	PNOTIFYICONDATA trayData = nullptr;
+
+	std::vector<LPWindowBase>* childs = nullptr;
 };
 typedef WindowState* LPWindowState;

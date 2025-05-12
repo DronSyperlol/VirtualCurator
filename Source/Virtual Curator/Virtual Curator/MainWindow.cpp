@@ -40,7 +40,7 @@ LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
 
-	new NotifyWindow(_hInstance, _hWnd, L"Hello world!");
+	_wndState->childs->push_back(new NotifyWindow(_hInstance, _hWnd, L"Hello world!"));
 
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
@@ -68,6 +68,18 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	case WM_LBUTTONDOWN:
 		SendMessage(hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
 		break;
+	case WM_MOVE:
+	{
+		POINT currentPos = { 0 };
+		ClientToScreen(hWnd, &currentPos);
+		for (auto child : *(_wndState->childs)) {
+			NotifyWindow* childWnd = dynamic_cast<NotifyWindow*>(child);
+			if (childWnd) {
+				childWnd->move(currentPos.x, currentPos.y);
+			}
+		}
+	}
+	break;
 	case WM_CONTEXTMENU:
 	{
 		int x = LOWORD(lp);
@@ -148,7 +160,7 @@ void MainWindow::hideToTray() const
 		ZeroMemory(_wndState->trayData, sizeof(NOTIFYICONDATA));
 		_wndState->trayData->cbSize = sizeof(NOTIFYICONDATA);
 		_wndState->trayData->hWnd = _hWnd;
-		_wndState->trayData->uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE;
+		_wndState->trayData->uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE | NIF_SHOWTIP;
 		_wndState->trayData->hIcon = LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 		wcscpy(_wndState->trayData->szTip, L"Показать куратора");
 		_wndState->trayData->uCallbackMessage = WM_USER;
@@ -171,7 +183,8 @@ void MainWindow::showFromTray() const
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Main Windows", WS_POPUP, 100, 100, 400, 400, NULL, NULL);
+	_wndState->childs = new std::vector<LPWindowBase>();
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Виртуальный куратор", WS_POPUP, 100, 100, 400, 400, NULL, NULL);
 	show(true);
 }
 
@@ -180,5 +193,6 @@ MainWindow::~MainWindow()
 	delete_ptr(_wndState->hBmp);
 	delete_ptr(_wndState->pImage);
 	delete_ptr(_wndState->trayData);
+	delete_ptr(_wndState->childs);
 	delete_ptr(_wndState);
 }

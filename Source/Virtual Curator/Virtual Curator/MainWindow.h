@@ -1,6 +1,7 @@
 #pragma once
 #include "WindowBase.h"
 #include "WindowState.h"
+#include <vector>
 
 // Menu
 const int CMI_HIDE = 1;

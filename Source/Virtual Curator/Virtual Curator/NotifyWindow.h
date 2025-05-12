@@ -9,9 +9,9 @@ private:
 
 	LRESULT onWindowCreate(HWND, WPARAM, LPARAM) const override;
 	LRESULT onWindowDestroy(HWND, WPARAM, LPARAM) const override;
-	//LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const override;
 
 	LPWindowState _wndState = nullptr;
+	LPCWSTR _message = nullptr;
 
 	void drawWindow() const;
 
