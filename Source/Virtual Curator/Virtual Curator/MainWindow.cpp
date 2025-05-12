@@ -40,7 +40,7 @@ LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
 
-	_wndState->childs->push_back(new NotifyWindow(_hInstance, _hWnd, L"Hello world!"));
+	_wndState->childs->push_back(new NotifyWindow(_hInstance, _hWnd, L"Hello world! And other very long text. Май инглиш ис вери бэд, соу ай би врайт бай юзинг транслит. Оукэй мазафака!?"));
 
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }

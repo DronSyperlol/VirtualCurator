@@ -59,6 +59,8 @@ void NotifyWindow::drawWindow() const
 
 	//
 	wndSize.cy = wndSize.cx / ((double)bm.bmWidth / bm.bmHeight);
+	wndPos.y -= wndSize.cy;
+	if (wndPos.y < 0) wndPos.y = 0;
 
 	HDC srcImageDC = CreateCompatibleDC(NULL);
 	SelectObject(srcImageDC, _wndState->hBmp);
@@ -72,19 +74,20 @@ void NotifyWindow::drawWindow() const
 
 	Gdiplus::Graphics graphics(dstImageDC);
 
-	Gdiplus::Font myFont(L"Arial", 16);
+	Gdiplus::Font myFont(L"windings", 16);
+
+	const int padding = 20;
 
 	Gdiplus::RectF therect;
-	therect.Height = 20;
-	therect.Width = 180;
-	therect.X = 10;
-	therect.Y = 10;
+	therect.Height = wndSize.cy - padding * 2;
+	therect.Width = wndSize.cx - padding*2;
+	therect.Y = therect.X = padding;
 
 	Gdiplus::StringFormat format;
-	format.SetAlignment(Gdiplus::StringAlignmentCenter);
+	format.SetAlignment(Gdiplus::StringAlignmentNear);
 	format.GenericDefault();
 
-	Gdiplus::SolidBrush   GxTextBrush(Gdiplus::Color(255, 0, 0, 0));
+	Gdiplus::SolidBrush   GxTextBrush(Gdiplus::Color(255, 10, 10, 10));
 
 	int msglen = 0;
 	while (_message[msglen] != '\0') msglen++;
