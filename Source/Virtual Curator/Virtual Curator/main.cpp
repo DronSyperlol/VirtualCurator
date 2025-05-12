@@ -1,8 +1,6 @@
 #include "main.h"
 #include "Tools.h"
 
-using namespace VirtualCurator;
-
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdParam, int cmdParamCount) 
 {
 	auto mainWindow = new MainWindow(hInst);
