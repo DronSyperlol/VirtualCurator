@@ -28,6 +28,15 @@
     <Filter Include="Файлы заголовков\Tools">
       <UniqueIdentifier>{47b23b24-b5cf-4538-b6b4-086280b79185}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Background">
+      <UniqueIdentifier>{04bd47d7-3aab-4710-bcab-f2341f1738fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Background\Types">
+      <UniqueIdentifier>{4c2fe844-93d1-4a1a-9834-1875c76a3f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Background">
+      <UniqueIdentifier>{8e0e9dad-b7ab-41fc-97f7-9b1d520e09ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="NotifyWindow.cpp">
       <Filter>Исходные файлы\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackProcesses.cpp">
+      <Filter>Исходные файлы\Background</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="NotifyWindow.h">
       <Filter>Файлы заголовков\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackProcesses.h">
+      <Filter>Файлы заголовков\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackedWindow.h">
+      <Filter>Файлы заголовков\Background\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackTarget.h">
+      <Filter>Файлы заголовков\Background\Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
