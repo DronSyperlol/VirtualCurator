@@ -1,7 +1,6 @@
 #include "NotifyWindow.h"
 #include "gdiplus.h"
 #pragma comment(lib, "gdiplus.lib")
-#include "Tools.h"
 
 WNDCLASSEX* NotifyWindow::_wndClass = nullptr;
 
@@ -28,7 +27,7 @@ LRESULT NotifyWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 	LPCWSTR imageName = L"..\\..\\..\\Data\\Images\\message.png";
 	_wndState->pImage = new Gdiplus::Bitmap(imageName);
 	if (_wndState->pImage != nullptr && _wndState->pImage->GetLastStatus() != Gdiplus::Ok) {
-		delete_ptr(_wndState->pImage);
+		delete _wndState->pImage;
 	}
 	else {
 		_wndState->pImage->GetHBITMAP(Gdiplus::Color(0, 0, 0, 0), &_wndState->hBmp);
@@ -106,6 +105,7 @@ void NotifyWindow::drawWindow() const
 	DeleteDC(srcImageDC);
 	DeleteObject(dstBmp);
 	DeleteDC(dstImageDC);
+	graphics.ReleaseHDC(dstImageDC);
 }
 
 NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : WindowBase(hInst)
@@ -114,21 +114,19 @@ NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : Wind
 	_wndState = new WindowState;
 	RECT parentWndRect = { 0 };
 	GetWindowRect(parent, &parentWndRect);
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED ,
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED,
 		L"Message",
 		WS_POPUP,
 		parentWndRect.left, parentWndRect.top - 100,
 		parentWndRect.right - parentWndRect.left, 0,
 		parent, NULL);
-	RECT rc = { 0 };
-	GetWindowRect(_hWnd, &rc);
 	show(true);
 }
 
 NotifyWindow::~NotifyWindow()
 {
-	delete_ptr(_wndState->hBmp);
-	delete_ptr(_wndState->pImage);
-	delete_ptr(_wndState->trayData);
-	delete_ptr(_wndState);
+	delete _wndState->pImage;
+	delete _wndState->trayData;
+	delete _wndState->childs;
+	delete _wndState;
 }

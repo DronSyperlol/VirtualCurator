@@ -1,17 +1,18 @@
 #pragma once
 #include <Windows.h> 
-#include <map>
+#include <exception>
 
 class WindowBase { //абстрактный класс
 private:
 public:
-	static LRESULT routeEvents(HWND, UINT, WPARAM, LPARAM);
+	static LRESULT WINAPI routeEvents(HWND, UINT, WPARAM, LPARAM);
 
 	WindowBase(HINSTANCE);
 	virtual void show(bool) const;
 	void move(int x, int y) const;
 	void sendMessage(UINT, WPARAM, LPARAM) const;
-	~WindowBase();
+	void destroyWindow();
+	virtual ~WindowBase();
 protected:
 	HWND _hWnd;
 	HINSTANCE _hInstance;

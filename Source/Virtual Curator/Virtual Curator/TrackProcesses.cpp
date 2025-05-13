@@ -2,11 +2,10 @@
 #include <chrono>
 #include <thread>
 #include <map>
-#include "Tools.h"
 #include <random>
 #include "MainWindow.h"
 
-constexpr std::chrono::system_clock::duration TRIGER_TIME = std::chrono::minutes(1);
+constexpr std::chrono::system_clock::duration TRIGER_TIME = std::chrono::seconds(5);
 
 static std::map<HWND, LPTrackedWindow> tracket;
 static std::vector<std::wstring> targets
@@ -44,6 +43,7 @@ bool _TrackProcesses::addToTrack(HWND wnd)
 {
 	const int buffer_size = 1024;
 	auto elem = new TrackedWindow;
+	ZeroMemory(elem, sizeof(TrackedWindow));
 	elem->hWnd = wnd;
 	elem->startTracking = std::chrono::system_clock::now();
 	elem->title = new WCHAR[buffer_size];
@@ -56,16 +56,15 @@ bool _TrackProcesses::addToTrack(HWND wnd)
 			return true;
 		}
 	}
-	delete_ptr(elem);
+	freeMemoryTrackedWindow(elem);
 	return false;
 }
 
-void _TrackProcesses::removeTrack(HWND wnd)
+void _TrackProcesses::freeMemoryTrackedWindow(LPTrackedWindow elem)
 {
-	auto elem = tracket[wnd];
-	if (elem == nullptr) return;
-	tracket.erase(wnd);
-	delete_ptr(elem);
+	delete[] elem->title;
+	delete elem;
+	elem = nullptr;
 }
 
 void _TrackProcesses::processTrigger(LPWindowBase wnd, const LPTrackedWindow elem)
@@ -89,4 +88,3 @@ void _TrackProcesses::processTrigger(LPWindowBase wnd, const LPTrackedWindow ele
 	LPCWSTR messagePointer = notifyMessage.c_str();
 	wnd->sendMessage(WM_USER, (WPARAM)messagePointer, MASKOT_SAY);
 }
-

@@ -9,7 +9,7 @@ void TrackForeground(LPWindowBase);
 
 namespace _TrackProcesses {
 	bool addToTrack(HWND);
-	void removeTrack(HWND);
+	void freeMemoryTrackedWindow(LPTrackedWindow);
 
 	void processTrigger(LPWindowBase, const LPTrackedWindow);
 }

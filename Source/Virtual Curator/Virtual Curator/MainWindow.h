@@ -1,20 +1,24 @@
 #pragma once
 #include "WindowBase.h"
 #include "WindowState.h"
-#include <vector>
+
 
 // Menu
 const int CMI_HIDE = 1;
 
 // Tracking
 const int MASKOT_SAY = 100;
+const int MASKOT_ENDSAY = 101;
 
 
-
+// Consts
+const int NOTIFICATION_SHOW_SEC = 1;
 
 class MainWindow : public WindowBase {
 private:
 	static WNDCLASSEX* _wndClass;
+	static void lifeTimerProc(HWND, UINT, UINT_PTR, DWORD);
+
 	LPCWSTR getClassName() const override;
 	LRESULT onWindowCreate(HWND, WPARAM, LPARAM) const override;
 	LRESULT onWindowDestroy(HWND, WPARAM, LPARAM) const override;
@@ -31,7 +35,12 @@ private:
 	void hideToTray() const;
 	void showFromTray() const;
 
+	void notifyAsMessage(LPCWSTR notificationMessage) const;
+
 public: 
 	MainWindow(HINSTANCE);
 	~MainWindow();
+
+protected:
+	void killChild(LPWindowBase) const;
 };

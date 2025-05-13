@@ -1,13 +1,21 @@
 #include "MainWindow.h"
 #pragma comment(lib, "gdiplus.lib") 
-#include "Tools.h"
 #include "resource.h"
 #include "NotifyWindow.h"
 #include <thread>
+#include <chrono>
 
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
 
+
+void MainWindow::lifeTimerProc(HWND hWnd, UINT msg, UINT_PTR ptr, DWORD dword)
+{
+	auto ownerWnd = (MainWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	auto wndToKill = (LPWindowBase)ptr;
+	KillTimer(hWnd, ptr);
+	ownerWnd->killChild(wndToKill);
+}
 
 LPCWSTR MainWindow::getClassName() const {
 	if (_wndClass == nullptr) {
@@ -32,15 +40,13 @@ LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 	LPCWSTR imageName = L"..\\..\\..\\Data\\Images\\default-maskot.png";
 	_wndState->pImage = new Gdiplus::Bitmap(imageName);
 	if (_wndState->pImage != nullptr && _wndState->pImage->GetLastStatus() != Gdiplus::Ok) {
-		delete_ptr(_wndState->pImage);
+		delete _wndState->pImage;
 	}
 	else {
 		_wndState->pImage->GetHBITMAP(Gdiplus::Color(0, 0, 0, 0), &_wndState->hBmp);
 		drawWindow();
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
-
-	//_wndState->childs->push_back(new NotifyWindow(_hInstance, _hWnd, L"Hello world! And other very long text. Май инглиш ис вери бэд, соу ай би врайт бай юзинг транслит. Оукэй мазафака!?"));
 
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
@@ -95,7 +101,7 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 			showFromTray();
 			break;
 		case MASKOT_SAY:
-			MessageBox(_hWnd, (LPCWSTR)wp, L"MASKOT_SAY", MB_OK);
+			notifyAsMessage((LPCWSTR)wp);
 			break;
 		}
 	}
@@ -190,6 +196,14 @@ void MainWindow::showFromTray() const
 	_wndState->hidden = false;
 }
 
+void MainWindow::notifyAsMessage(LPCWSTR notificationMessage) const
+{
+	if (_wndState->hidden) showFromTray();
+	LPWindowBase child = new NotifyWindow(_hInstance, _hWnd, notificationMessage);
+	_wndState->childs->push_back(child);
+	SetTimer(_hWnd, (UINT_PTR)child, NOTIFICATION_SHOW_SEC * 1000, lifeTimerProc);
+}
+
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
@@ -200,9 +214,17 @@ MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 
 MainWindow::~MainWindow()
 {
-	delete_ptr(_wndState->hBmp);
-	delete_ptr(_wndState->pImage);
-	delete_ptr(_wndState->trayData);
-	delete_ptr(_wndState->childs);
-	delete_ptr(_wndState);
+	delete _wndState->pImage;
+	delete _wndState->trayData;
+	delete _wndState->childs;
+	delete _wndState;
+}
+
+void MainWindow::killChild(LPWindowBase childToKill) const
+{
+	childToKill->destroyWindow();
+	delete childToKill;
+	auto v = _wndState->childs;
+	v->erase(std::find(v->begin(), v->end(), childToKill));
+	childToKill = nullptr;
 }

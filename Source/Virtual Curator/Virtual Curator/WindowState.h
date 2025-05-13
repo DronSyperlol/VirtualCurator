@@ -1,6 +1,7 @@
 #pragma once
 #include <gdiplus.h>  // Заголовочный файл GDI+
 #include <vector>
+#include <map>
 
 struct WindowState
 {

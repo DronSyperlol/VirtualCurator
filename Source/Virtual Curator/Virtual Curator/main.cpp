@@ -1,5 +1,4 @@
 #include "main.h"
-#include "Tools.h"
 #include <thread_pool/thread_pool.h>
 #include "TrackProcesses.h"
 #include "TrackedWindow.h"
@@ -14,6 +13,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdParam, int cmdParamCount
 
 	threads.enqueue_detach(TrackForeground, mainWindow);
 
+
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0) != 0)
 	{
@@ -21,5 +21,5 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdParam, int cmdParamCount
 		DispatchMessage(&msg);
 	}
 	// closing app
-	delete_ptr(mainWindow);
+	delete mainWindow;
 }

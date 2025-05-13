@@ -32,7 +32,14 @@ void WindowBase::sendMessage(UINT msg, WPARAM wp, LPARAM lp) const
 	SendMessage(_hWnd, msg, wp, lp);
 }
 
-LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
+void WindowBase::destroyWindow()
+{
+	DestroyWindow(_hWnd);
+	_hWnd = 0;
+	_hInstance = 0;
+}
+
+LRESULT WINAPI WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	auto wndClass = (LPWindowBase)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	try {
