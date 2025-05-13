@@ -37,7 +37,11 @@ LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 	Gdiplus::GdiplusStartupInput gdiInput;
 	Gdiplus::GdiplusStartup(&_wndState->gdiToken, &gdiInput, NULL);
 
+#ifdef Release
+	LPCWSTR imageName = L"Skins\\Default\\default-maskot.png";
+#else
 	LPCWSTR imageName = L"..\\..\\..\\Data\\Images\\default-maskot.png";
+#endif
 	_wndState->pImage = new Gdiplus::Bitmap(imageName);
 	if (_wndState->pImage != nullptr && _wndState->pImage->GetLastStatus() != Gdiplus::Ok) {
 		delete _wndState->pImage;
@@ -214,7 +218,7 @@ MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 MainWindow::~MainWindow()
 {
 	DeleteObject(_wndState->hBmp);
-	delete _wndState->pImage;
+	//delete _wndState->pImage;
 	delete _wndState->trayData;
 	delete _wndState->childs;
 	delete _wndState;

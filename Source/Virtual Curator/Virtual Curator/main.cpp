@@ -1,5 +1,5 @@
 #include "main.h"
-#include <thread_pool/thread_pool.h>
+#include <thread>
 #include "TrackProcesses.h"
 #include "TrackedWindow.h"
 
@@ -9,11 +9,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdParam, int cmdParamCount
 {
 	auto mainWindow = new MainWindow(hInst);
 
-	dp::thread_pool threads(MAX_ADDITION_THREADS);
-
-	threads.enqueue_detach(TrackForeground, mainWindow);
-
-
+	std::thread trackingThread(TrackForeground, mainWindow);
+	trackingThread.detach();
+	
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0) != 0)
 	{
@@ -21,5 +19,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdParam, int cmdParamCount
 		DispatchMessage(&msg);
 	}
 	// closing app
+	mainWindow->destroyWindow();
 	delete mainWindow;
 }

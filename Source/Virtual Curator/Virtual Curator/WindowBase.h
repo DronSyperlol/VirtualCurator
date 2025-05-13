@@ -2,6 +2,8 @@
 #include <Windows.h> 
 #include <exception>
 
+#define Release
+
 class WindowBase { //абстрактный класс
 private:
 public:

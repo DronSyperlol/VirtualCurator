@@ -24,7 +24,11 @@ LRESULT NotifyWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 	Gdiplus::GdiplusStartupInput gdiInput;
 	Gdiplus::GdiplusStartup(&_wndState->gdiToken, &gdiInput, NULL);
 
+#ifdef Release
+	LPCWSTR imageName = L"Assets\\message.png";
+#else
 	LPCWSTR imageName = L"..\\..\\..\\Data\\Images\\message.png";
+#endif
 	_wndState->pImage = new Gdiplus::Bitmap(imageName);
 	if (_wndState->pImage != nullptr && _wndState->pImage->GetLastStatus() != Gdiplus::Ok) {
 		delete _wndState->pImage;

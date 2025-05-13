@@ -48,9 +48,6 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Исходные файлы\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Tools.cpp">
-      <Filter>Исходные файлы\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="NotifyWindow.cpp">
       <Filter>Исходные файлы\Windows</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
     <ClInclude Include="WindowState.h">
       <Filter>Файлы заголовков\Windows\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Tools.h">
-      <Filter>Файлы заголовков\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -84,9 +78,6 @@
       <Filter>Файлы заголовков\Background</Filter>
     </ClInclude>
     <ClInclude Include="TrackedWindow.h">
-      <Filter>Файлы заголовков\Background\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="TrackTarget.h">
       <Filter>Файлы заголовков\Background\Types</Filter>
     </ClInclude>
   </ItemGroup>
