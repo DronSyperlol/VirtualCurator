@@ -207,6 +207,7 @@ void MainWindow::notifyAsMessage(LPCWSTR notificationMessage) const
 MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
+	ZeroMemory(_wndState, sizeof(WindowState));
 	_wndState->childs = new std::vector<LPWindowBase>();
 	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Виртуальный куратор", WS_POPUP, 100, 100, 300, 300, NULL, NULL);
 	show(true);
@@ -214,6 +215,7 @@ MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 
 MainWindow::~MainWindow()
 {
+	DeleteObject(_wndState->hBmp);
 	delete _wndState->pImage;
 	delete _wndState->trayData;
 	delete _wndState->childs;

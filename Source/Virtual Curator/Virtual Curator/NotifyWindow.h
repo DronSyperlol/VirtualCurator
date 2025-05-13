@@ -17,5 +17,5 @@ private:
 
 public:
 	NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message);
-	~NotifyWindow();
+	~NotifyWindow() override;
 };

@@ -44,7 +44,6 @@ LRESULT NotifyWindow::onWindowDestroy(HWND hWnd, WPARAM wp, LPARAM lp) const
 	return DefWindowProc(hWnd, WM_DESTROY, wp, lp);
 }
 
-
 void NotifyWindow::drawWindow() const
 {
 	RECT rect = { 0 };
@@ -105,13 +104,13 @@ void NotifyWindow::drawWindow() const
 	DeleteDC(srcImageDC);
 	DeleteObject(dstBmp);
 	DeleteDC(dstImageDC);
-	graphics.ReleaseHDC(dstImageDC);
 }
 
 NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : WindowBase(hInst)
 {
 	_message = message;
 	_wndState = new WindowState;
+	ZeroMemory(_wndState, sizeof(WindowState));
 	RECT parentWndRect = { 0 };
 	GetWindowRect(parent, &parentWndRect);
 	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED,
@@ -125,6 +124,7 @@ NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : Wind
 
 NotifyWindow::~NotifyWindow()
 {
+	DeleteObject(_wndState->hBmp);
 	delete _wndState->pImage;
 	delete _wndState->trayData;
 	delete _wndState->childs;
