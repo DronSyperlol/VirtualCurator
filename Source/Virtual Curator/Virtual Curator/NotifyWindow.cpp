@@ -34,7 +34,7 @@ LRESULT NotifyWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 		drawWindow();
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
-	
+
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
 
@@ -42,6 +42,17 @@ LRESULT NotifyWindow::onWindowDestroy(HWND hWnd, WPARAM wp, LPARAM lp) const
 {
 	Gdiplus::GdiplusShutdown(_wndState->gdiToken);
 	return DefWindowProc(hWnd, WM_DESTROY, wp, lp);
+}
+
+LRESULT NotifyWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) const
+{
+	switch (msg)
+	{
+	case WM_LBUTTONDOWN:
+		SendMessage(_parent, msg, wp, lp);
+		return 0;
+	}
+	return DefWindowProc(hWnd, msg, wp, lp);
 }
 
 void NotifyWindow::drawWindow() const
@@ -55,7 +66,6 @@ void NotifyWindow::drawWindow() const
 	BITMAP bm = { 0 };
 	GetObject(_wndState->hBmp, sizeof(BITMAP), &bm);
 
-	//
 	wndSize.cy = wndSize.cx / ((double)bm.bmWidth / bm.bmHeight);
 	wndPos.y -= wndSize.cy;
 	if (wndPos.y < 0) wndPos.y = 0;
@@ -78,7 +88,7 @@ void NotifyWindow::drawWindow() const
 
 	Gdiplus::RectF therect;
 	therect.Height = wndSize.cy - padding * 2;
-	therect.Width = wndSize.cx - padding*2;
+	therect.Width = wndSize.cx - padding * 2;
 	therect.Y = therect.X = padding;
 
 	Gdiplus::StringFormat format;
@@ -108,6 +118,7 @@ void NotifyWindow::drawWindow() const
 
 NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : WindowBase(hInst)
 {
+	_parent = parent;
 	_message = message;
 	_wndState = new WindowState;
 	ZeroMemory(_wndState, sizeof(WindowState));
@@ -116,9 +127,9 @@ NotifyWindow::NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message) : Wind
 	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED,
 		L"Message",
 		WS_POPUP,
-		parentWndRect.left, parentWndRect.top - 100,
+		parentWndRect.left, parentWndRect.top,
 		parentWndRect.right - parentWndRect.left, 0,
-		parent, NULL);
+		NULL);
 	show(true);
 }
 
@@ -129,4 +140,13 @@ NotifyWindow::~NotifyWindow()
 	delete _wndState->trayData;
 	delete _wndState->childs;
 	delete _wndState;
+}
+
+void NotifyWindow::move(int x, int y) const
+{
+	RECT rc = { 0 };
+	GetWindowRect(_hWnd, &rc);
+	y -= rc.bottom - rc.top;
+	if (y < 0) y = 0;
+	WindowBase::move(x, y);
 }

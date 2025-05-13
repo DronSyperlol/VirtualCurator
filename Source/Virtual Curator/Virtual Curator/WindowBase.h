@@ -9,17 +9,18 @@ public:
 
 	WindowBase(HINSTANCE);
 	virtual void show(bool) const;
-	void move(int x, int y) const;
-	void sendMessage(UINT, WPARAM, LPARAM) const;
-	void destroyWindow();
+	virtual void move(int x, int y) const;
+	virtual void sendMessage(UINT, WPARAM, LPARAM) const;
+	virtual void destroyWindow();
 	virtual ~WindowBase();
 protected:
+	HWND _parent = NULL;
 	HWND _hWnd;
 	HINSTANCE _hInstance;
 	virtual LPCWSTR getClassName() const = 0; //метод для получения класса окна
 	HWND initializeWindow(
 		DWORD exStyle, LPCWSTR windowName, DWORD style,
-		int x, int y, int width, int height, HWND parent, HMENU menu);
+		int x, int y, int width, int height, HMENU menu);
 
 	// Events: 
 	virtual LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const;

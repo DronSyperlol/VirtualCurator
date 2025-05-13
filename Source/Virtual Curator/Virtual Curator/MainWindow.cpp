@@ -106,8 +106,6 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 		}
 	}
 	break;
-	default:
-		break;
 	}
 	return DefWindowProc(hWnd, msg, wp, lp);
 }
@@ -209,7 +207,7 @@ MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 	_wndState = new WindowState;
 	ZeroMemory(_wndState, sizeof(WindowState));
 	_wndState->childs = new std::vector<LPWindowBase>();
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Виртуальный куратор", WS_POPUP, 100, 100, 300, 300, NULL, NULL);
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Виртуальный куратор", WS_POPUP, 100, 100, 300, 300, NULL);
 	show(true);
 }
 

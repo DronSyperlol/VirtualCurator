@@ -3,12 +3,13 @@
 #include "WindowState.h"
 
 class NotifyWindow : public WindowBase {
-private: 
+private:
 	static WNDCLASSEX* _wndClass;
 	LPCWSTR getClassName() const override;
 
 	LRESULT onWindowCreate(HWND, WPARAM, LPARAM) const override;
 	LRESULT onWindowDestroy(HWND, WPARAM, LPARAM) const override;
+	LRESULT onRawWndProc(HWND, UINT, WPARAM, LPARAM) const override;
 
 	LPWindowState _wndState = nullptr;
 	LPCWSTR _message = nullptr;
@@ -18,4 +19,6 @@ private:
 public:
 	NotifyWindow(HINSTANCE hInst, HWND parent, LPCWSTR message);
 	~NotifyWindow() override;
+
+	void move(int x, int y) const override;
 };

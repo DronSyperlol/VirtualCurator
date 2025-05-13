@@ -2,9 +2,9 @@
 
 
 HWND WindowBase::initializeWindow(DWORD exStyle, LPCWSTR windowName, DWORD style,
-	int x, int y, int width, int height, HWND parent, HMENU menu)
+	int x, int y, int width, int height, HMENU menu)
 {
-	return CreateWindowEx(exStyle, getClassName(), windowName, style, x, y, width, height, parent, menu, _hInstance, this);
+	return CreateWindowEx(exStyle, getClassName(), windowName, style, x, y, width, height, _parent, menu, _hInstance, this);
 }
 
 LRESULT WindowBase::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) const
