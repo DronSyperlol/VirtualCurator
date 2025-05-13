@@ -14,7 +14,6 @@ static std::vector<std::wstring> targets
 	L"- YouTube",
 	L"| TikTok"
 };
-
 static bool functionCalled = false;
 
 using namespace _TrackProcesses;
@@ -79,6 +78,7 @@ void _TrackProcesses::processTrigger(LPWindowBase wnd, const LPTrackedWindow ele
 	static std::wstring timeTrigger = L"{time}";
 	static std::wstring titleTrigger = L"{title}";
 
+	std::srand(std::chrono::system_clock::now().time_since_epoch().count());
 	int notifyIndex = std::rand() % notificationsTemplates.size();
 	std::wstring notifyMessage = notificationsTemplates.at(notifyIndex);
 
