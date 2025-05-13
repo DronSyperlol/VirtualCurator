@@ -1,10 +1,10 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "MainWindow.h"
 #pragma comment(lib, "gdiplus.lib") 
 #include "Tools.h"
 #include "resource.h"
-
 #include "NotifyWindow.h"
+#include <thread>
+
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
 
@@ -40,7 +40,7 @@ LRESULT MainWindow::onWindowCreate(HWND hWnd, WPARAM wp, LPARAM lp) const
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
 
-	_wndState->childs->push_back(new NotifyWindow(_hInstance, _hWnd, L"Hello world! And other very long text. Май инглиш ис вери бэд, соу ай би врайт бай юзинг транслит. Оукэй мазафака!?"));
+	//_wndState->childs->push_back(new NotifyWindow(_hInstance, _hWnd, L"Hello world! And other very long text. Май инглиш ис вери бэд, соу ай би врайт бай юзинг транслит. Оукэй мазафака!?"));
 
 	return DefWindowProc(hWnd, WM_CREATE, wp, lp);
 }
@@ -88,9 +88,18 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	}
 	break;
 	case WM_USER:
-		if (lp == WM_LBUTTONDOWN)
+	{
+		switch (lp)
+		{
+		case WM_LBUTTONDOWN:
 			showFromTray();
-		break;
+			break;
+		case MASKOT_SAY:
+			MessageBox(_hWnd, (LPCWSTR)wp, L"MASKOT_SAY", MB_OK);
+			break;
+		}
+	}
+	break;
 	default:
 		break;
 	}
@@ -162,7 +171,8 @@ void MainWindow::hideToTray() const
 		_wndState->trayData->hWnd = _hWnd;
 		_wndState->trayData->uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE | NIF_SHOWTIP;
 		_wndState->trayData->hIcon = LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_ICON1));
-		wcscpy(_wndState->trayData->szTip, L"Показать куратора");
+		WCHAR tip[] = L"Показать куратора";
+		wcsncpy_s(_wndState->trayData->szTip, tip, sizeof(tip));
 		_wndState->trayData->uCallbackMessage = WM_USER;
 		_wndState->trayData->uVersion = NOTIFYICON_VERSION_4;
 	}
@@ -184,7 +194,7 @@ MainWindow::MainWindow(HINSTANCE hInst) : WindowBase(hInst)
 {
 	_wndState = new WindowState;
 	_wndState->childs = new std::vector<LPWindowBase>();
-	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Виртуальный куратор", WS_POPUP, 100, 100, 400, 400, NULL, NULL);
+	initializeWindow(WS_EX_TOPMOST | WS_EX_LAYERED, L"Виртуальный куратор", WS_POPUP, 100, 100, 300, 300, NULL, NULL);
 	show(true);
 }
 

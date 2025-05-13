@@ -6,6 +6,10 @@
 // Menu
 const int CMI_HIDE = 1;
 
+// Tracking
+const int MASKOT_SAY = 100;
+
+
 
 
 class MainWindow : public WindowBase {

@@ -1,10 +1,15 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include "TrackedWindow.h"
+#include "WindowBase.h"
 
-void TrackProcesses();
+void TrackForeground(LPWindowBase);
 
 
-namespace TrackProcesses {
-	void GetProcessName(HANDLE, std::wstring);
+namespace _TrackProcesses {
+	bool addToTrack(HWND);
+	void removeTrack(HWND);
+
+	void processTrigger(LPWindowBase, const LPTrackedWindow);
 }

@@ -145,7 +145,6 @@
     <ClInclude Include="NotifyWindow.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Tools.h" />
-    <ClInclude Include="TrackTarget.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowState.h" />
   </ItemGroup>
