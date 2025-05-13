@@ -5,7 +5,8 @@
 #include <random>
 #include "MainWindow.h"
 
-constexpr std::chrono::system_clock::duration TRIGER_TIME = std::chrono::seconds(5);
+constexpr std::chrono::system_clock::duration TRIGER_TIME = std::chrono::minutes(10);
+constexpr std::chrono::system_clock::duration FORGOT_TIME = std::chrono::minutes(5);
 
 static std::map<HWND, LPTrackedWindow> tracket;
 static std::vector<std::wstring> targets
@@ -22,20 +23,31 @@ void TrackForeground(LPWindowBase notifyRecipient)
 	if (functionCalled) throw "Is a singleton!";
 	functionCalled = true;
 	while (true) {
-
 		HWND wnd = GetForegroundWindow();
-		auto elem = tracket[wnd];
-		if (elem == nullptr) {
-			addToTrack(wnd);
-		}
-		else {
+		if (tracket.contains(wnd))
+		{
+			auto elem = tracket[wnd];
 			elem->trackTime = std::chrono::system_clock::now() - elem->startTracking;
+			elem->lastCheck = std::chrono::system_clock::now();
 			if (elem->trackTime - elem->lastNotifyTime >= TRIGER_TIME) {
 				elem->lastNotifyTime = elem->trackTime;
 				processTrigger(notifyRecipient, elem);
 			}
 		}
-		std::this_thread::sleep_for(std::chrono::seconds(1));
+		else {
+			addToTrack(wnd);
+		}
+		auto threshold = std::chrono::system_clock::now() - FORGOT_TIME;
+		auto iter = tracket.begin();
+		while (iter != tracket.end()) {
+			if (iter->second->lastCheck < threshold) {
+				iter = tracket.erase(iter);
+			}
+			else {
+				++iter;
+			}
+		}
+		std::this_thread::sleep_for(std::chrono::seconds(10));
 	}
 }
 
@@ -46,6 +58,7 @@ bool _TrackProcesses::addToTrack(HWND wnd)
 	ZeroMemory(elem, sizeof(TrackedWindow));
 	elem->hWnd = wnd;
 	elem->startTracking = std::chrono::system_clock::now();
+	elem->lastCheck = std::chrono::system_clock::now();
 	elem->title = new WCHAR[buffer_size];
 	GetWindowText(wnd, elem->title, buffer_size);
 	std::wstring title(elem->title);

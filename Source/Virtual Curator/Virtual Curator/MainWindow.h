@@ -12,7 +12,7 @@ const int MASKOT_ENDSAY = 101;
 
 
 // Consts
-const int NOTIFICATION_SHOW_SEC = 1;
+const int NOTIFICATION_SHOW_SEC = 10;
 
 class MainWindow : public WindowBase {
 private:
