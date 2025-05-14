@@ -105,6 +105,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\C++ Libs\thread-pool-0.7.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,6 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,20 +131,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TrackProcesses.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="NotifyWindow.cpp" />
     <ClCompile Include="WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TrackedWindow.h" />
+    <ClInclude Include="TrackProcesses.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="Tools.h" />
+    <ClInclude Include="NotifyWindow.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowState.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Data\Images\default-maskot.png" />
+    <Image Include="..\..\..\Data\Images\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Virtual Curator.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

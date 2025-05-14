@@ -22,11 +22,20 @@
     <Filter Include="Файлы заголовков\Windows\Types">
       <UniqueIdentifier>{28341e91-f8a4-4c94-9c87-cef1635559ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Windows\Tools">
-      <UniqueIdentifier>{47b23b24-b5cf-4538-b6b4-086280b79185}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Tools">
       <UniqueIdentifier>{6fb8d0d0-d75f-415c-8373-e609d2d34219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Tools">
+      <UniqueIdentifier>{47b23b24-b5cf-4538-b6b4-086280b79185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Background">
+      <UniqueIdentifier>{04bd47d7-3aab-4710-bcab-f2341f1738fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Background\Types">
+      <UniqueIdentifier>{4c2fe844-93d1-4a1a-9834-1875c76a3f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Background">
+      <UniqueIdentifier>{8e0e9dad-b7ab-41fc-97f7-9b1d520e09ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,8 +48,11 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Исходные файлы\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Tools.cpp">
-      <Filter>Исходные файлы\Tools</Filter>
+    <ClCompile Include="NotifyWindow.cpp">
+      <Filter>Исходные файлы\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackProcesses.cpp">
+      <Filter>Исходные файлы\Background</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,13 +68,30 @@
     <ClInclude Include="WindowState.h">
       <Filter>Файлы заголовков\Windows\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Tools.h">
-      <Filter>Файлы заголовков\Windows\Tools</Filter>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="NotifyWindow.h">
+      <Filter>Файлы заголовков\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackProcesses.h">
+      <Filter>Файлы заголовков\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackedWindow.h">
+      <Filter>Файлы заголовков\Background\Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Data\Images\default-maskot.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="..\..\..\Data\Images\logo.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Virtual Curator.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -2,9 +2,9 @@
 
 
 HWND WindowBase::initializeWindow(DWORD exStyle, LPCWSTR windowName, DWORD style,
-	int x, int y, int width, int height, HWND parent, HMENU menu)
+	int x, int y, int width, int height, HMENU menu)
 {
-	return CreateWindowEx(exStyle, getClassName(), windowName, style, x, y, width, height, parent, menu, _hInstance, this);
+	return CreateWindowEx(exStyle, getClassName(), windowName, style, x, y, width, height, _parent, menu, _hInstance, this);
 }
 
 LRESULT WindowBase::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) const
@@ -12,13 +12,34 @@ LRESULT WindowBase::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	return DefWindowProc(_hWnd, msg, wp, lp);
 }
 
+LRESULT WindowBase::onCommand(HWND hWnd, WPARAM wp, LPARAM lp) const
+{
+	return onRawWndProc(hWnd, WM_COMMAND, wp, lp);
+}
+
 void WindowBase::show(bool toShow) const
 {
 	ShowWindowAsync(_hWnd, toShow ? SW_SHOW : SW_HIDE);
 }
 
+void WindowBase::move(int x, int y) const
+{
+	SetWindowPos(_hWnd, nullptr, x, y, 0, 0, SWP_NOSIZE);
+}
 
-LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
+void WindowBase::sendMessage(UINT msg, WPARAM wp, LPARAM lp) const
+{
+	SendMessage(_hWnd, msg, wp, lp);
+}
+
+void WindowBase::destroyWindow()
+{
+	DestroyWindow(_hWnd);
+	_hWnd = 0;
+	_hInstance = 0;
+}
+
+LRESULT WINAPI WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	auto wndClass = (LPWindowBase)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	try {
@@ -32,9 +53,11 @@ LRESULT WindowBase::routeEvents(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	if (!wndClass) return DefWindowProc(hWnd, msg, wp, lp);
 	switch (msg) {
 	case WM_CREATE:
-		return wndClass->onWindowCreated(hWnd, wp, lp);
+		return wndClass->onWindowCreate(hWnd, wp, lp);
 	case WM_DESTROY:
-		return wndClass->onWindowDestroyed(hWnd, wp, lp);
+		return wndClass->onWindowDestroy(hWnd, wp, lp);
+	case WM_COMMAND:
+		return wndClass->onCommand(hWnd, wp, lp);
 	default:
 		return wndClass->onRawWndProc(hWnd, msg, wp, lp);
 	}
