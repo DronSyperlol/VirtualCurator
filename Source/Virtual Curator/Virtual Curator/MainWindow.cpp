@@ -152,6 +152,7 @@ void MainWindow::drawWindow() const
 void MainWindow::drawContextMenu(int x, int y) const
 {
 	HMENU rootMenu = CreatePopupMenu();
+	AppendMenu(rootMenu, MF_STRING, CMI_AUTHORS, L"Авторы");
 	AppendMenu(rootMenu, MF_STRING, CMI_HIDE, L"Скрыть");
 	int code = TrackPopupMenu(rootMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD | TPM_LEFTBUTTON | TPM_NOANIMATION, x, y, 0, _hWnd, nullptr);
 	processContextMenu(code);
@@ -163,6 +164,14 @@ void MainWindow::processContextMenu(int code) const
 	{
 	case CMI_HIDE:
 		hideToTray();
+		break;
+	case CMI_AUTHORS:
+		MessageBox(_hWnd, 
+			L"\
+https://github.com/DronSyperlol\n\
+https://github.com/Antosha106",
+			L"Авторы", 
+			MB_OK);
 		break;
 	default:
 		break;

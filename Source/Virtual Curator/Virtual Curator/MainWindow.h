@@ -5,6 +5,7 @@
 
 // Menu
 const int CMI_HIDE = 1;
+const int CMI_AUTHORS = 2;
 
 // Tracking
 const int MASKOT_SAY = 100;

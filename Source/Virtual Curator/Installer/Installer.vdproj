@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A9BD250C4D924B61AABEB3A48AC0D1DD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_EB004BF25E1F49628DD3A0331561BCBC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -141,26 +135,6 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A9BD250C4D924B61AABEB3A48AC0D1DD"
-            {
-            "SourcePath" = "8:..\\..\\..\\Data\\Images\\logo.ico"
-            "TargetName" = "8:logo.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_E983320106F74ED0A419FA0865C69CCF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -294,7 +268,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Virtual Curator"
         "ProductCode" = "8:{5CAAE014-B706-4693-84B3-44560ED8389D}"
-        "PackageCode" = "8:{9FF055BE-F63C-4F6A-87C9-F844EAED1FAF}"
+        "PackageCode" = "8:{113DF357-5C0A-4D8D-B1FB-E957DE9EA13B}"
         "UpgradeCode" = "8:{B2466C73-5E07-4B0D-BA3E-9DD440F10674}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -420,12 +394,12 @@
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:101"
             "Transitive" = "11:FALSE"
             "Target" = "8:_8E8DB77FD39444F68272F4A7C54133A3"
             "Folder" = "8:_4715C65CAC164529B583BBFC7416E344"
             "WorkingFolder" = "8:_E983320106F74ED0A419FA0865C69CCF"
-            "Icon" = "8:_A9BD250C4D924B61AABEB3A48AC0D1DD"
+            "Icon" = "8:_8E8DB77FD39444F68272F4A7C54133A3"
             "Feature" = "8:"
             }
         }
