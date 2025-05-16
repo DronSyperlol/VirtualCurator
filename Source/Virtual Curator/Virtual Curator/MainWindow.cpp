@@ -4,7 +4,7 @@
 #include "NotifyWindow.h"
 #include <thread>
 #include <chrono>
-
+#include <windowsx.h>
 
 WNDCLASSEX* MainWindow::_wndClass = nullptr;
 
@@ -92,8 +92,8 @@ LRESULT MainWindow::onRawWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) cons
 	break;
 	case WM_CONTEXTMENU:
 	{
-		int x = LOWORD(lp);
-		int y = HIWORD(lp);
+		int x = GET_X_LPARAM(lp);
+		int y = GET_Y_LPARAM(lp);
 		drawContextMenu(x, y);
 	}
 	break;
